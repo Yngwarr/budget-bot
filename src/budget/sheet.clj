@@ -1,27 +1,21 @@
 (ns budget.sheet
-  (:require [clojure.string :as str]
-            [jsonista.core :as json]
-            [budget.auth :as auth]))
+  (:require
+   [budget.auth :as auth]
+   [clojure.edn :as edn]
+   [jsonista.core :as json]))
 
 (def endpoint  "https://sheets.googleapis.com/v4/spreadsheets/")
-
-(def sheet "1xlAomgHNiEGf7xTuDlnCEXbccNaLMh9vSy4YOvtaq1Y")
 
 (def request
   (auth/create-client {:scopes ["https://www.googleapis.com/auth/spreadsheets"]}))
 
 (defn crawl-range [sheet-id range]
-  (let [response (request {:method :get
-                           :url (str endpoint sheet-id "/values/" range)})]
+  (let [response
+        (request {:method :get
+                  :url (str endpoint sheet-id "/values/" range)})]
     (assoc response :body (json/read-value (:body response)))))
 
-(defn find-empty-row [sheet-id]
-  (let [row-count (-> (crawl-range sheet "2023!A1:A1000")
-                      (get-in [:body "values"])
-                      count)]
-    (inc row-count)))
-
-(defn add-info [sheet-id date amount category comment]
+(defn add-info [sheet-id [date amount category comment]]
   (let [range "2023!A1:D1000"
         body (json/write-value-as-string
                {"range" range
@@ -36,8 +30,10 @@
               :body body})))
 
 (comment
+  (def sheet (-> (slurp "secret.edn") edn/read-string :sheet))
+
   (try
-    (add-info sheet "hello" "from" "clojure" "bish")
+    (add-info sheet "2023-12-29" "9.12" "test" "Testing")
     (catch Exception e (-> e ex-data :body println)))
 
   (def res

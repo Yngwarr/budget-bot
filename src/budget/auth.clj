@@ -6,9 +6,7 @@
   (let [credential (GoogleCredentials/getApplicationDefault)
         credential (if-let [scopes (:scopes config)]
                      (.createScoped credential scopes)
-                     credential)
-        _ (def the-cred credential)
-        ]
+                     credential)]
     (fn [request]
       (.refreshIfExpired credential)
       (let [token (.getAccessToken credential)

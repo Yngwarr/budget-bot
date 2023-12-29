@@ -4,3 +4,4 @@
 .nrepl-port
 build.zip
 client-id.json
+secret.edn
