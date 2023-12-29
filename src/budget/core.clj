@@ -46,7 +46,7 @@
           (t/send-text
             tg-token
             id
-            "Info added, thank you!")
+            (str "Record " data " added, thank you!"))
           (let [status (:status response)
                 reason (:reason-phrase response)]
             (.println
