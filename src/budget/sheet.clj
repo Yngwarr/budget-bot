@@ -16,7 +16,8 @@
     (assoc response :body (json/read-value (:body response)))))
 
 (defn add-info [sheet-id [date amount category comment]]
-  (let [range "2023!A1:D1000"
+  (let [year (subs date 0 4)
+        range (str year "!A1:D1000")
         body (json/write-value-as-string
                {"range" range
                 "majorDimension" "ROWS"
@@ -33,7 +34,7 @@
   (def sheet (-> (slurp "secret.edn") edn/read-string :sheet))
 
   (try
-    (add-info sheet "2023-12-29" "9.12" "test" "Testing")
+    (add-info sheet ["2023-12-29" "9.12" "test" "Testing"])
     (catch Exception e (-> e ex-data :body println)))
 
   (def res

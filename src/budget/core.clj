@@ -1,11 +1,12 @@
 (ns budget.core
   (:require
-   [budget.parse-bank :as bank]
-   [budget.sheet :as sheet]
-   [clojure.edn :as edn]
-   [morse.api :as t]
-   [morse.handlers :as h]
-   [morse.polling :as p]))
+    [clojure.core.async :refer [<!!]]
+    [budget.parse-bank :as bank]
+    [budget.sheet :as sheet]
+    [clojure.edn :as edn]
+    [morse.api :as t]
+    [morse.handlers :as h]
+    [morse.polling :as p]))
 
 (def secret (edn/read-string (slurp "secret.edn")))
 
@@ -64,9 +65,17 @@
   (h/command-fn "help" (partial guard help-cmd))
   (h/message-fn (partial guard message-handler)))
 
+#_{:clj-kondo/ignore [:unresolved-symbol]}
 (defn -main [& _args]
-  #_{:clj-kondo/ignore [:unresolved-symbol]}
-  (p/start tg-token bot-api))
+  (println " mmmmm             #                  m    mmmmm           m   ")
+  (println " #    # m   m   mmm#   mmmm   mmm   mm#mm  #    #  mmm   mm#mm ")
+  (println " #mmmm\" #   #  #\" \"#  #\" \"#  #\"  #    #    #mmmm\" #\" \"#    #   ")
+  (println " #    # #   #  #   #  #   #  #\"\"\"\"    #    #    # #   #    #   ")
+  (println " #mmmm\" \"mm\"#  \"#m##  \"#m\"#  \"#mm\"    \"mm  #mmmm\" \"#m#\"    \"mm ")
+  (println "                       m  #                                    ")
+  (println "                        \"\"                                     ")
+  (let [ch (p/start tg-token bot-api)]
+    (<!! ch)))
 
 (comment
   (def channel
