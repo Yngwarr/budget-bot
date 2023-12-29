@@ -1,0 +1,13 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.11.1"}
+        clj-http/clj-http {:mvn/version "3.12.3"}
+        metosin/jsonista {:mvn/version "0.3.8"}
+        morse/morse {:mvn/version "0.4.3"}
+        com.google.auth/google-auth-library-oauth2-http {:mvn/version "1.20.0"}}
+ :aliases
+ {:run {:main-opts ["-m" "budget.core"]}
+  :repl {:extra-deps {cider/cider-nrepl {:mvn/version "LATEST"}
+                      refactor-nrepl/refactor-nrepl {:mvn/version "LATEST"}}
+         :main-opts ["-m" "nrepl.cmdline"
+                     "--middleware"
+                     "[refactor-nrepl.middleware/wrap-refactor,cider.nrepl/cider-middleware]"]}}}
