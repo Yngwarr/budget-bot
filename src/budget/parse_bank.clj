@@ -1,6 +1,7 @@
 (ns budget.parse-bank
   (:require [clojure.string :as str]))
 
+;; TODO move to data somewhere in the spreadsheet
 (defn guess-category-and-comment [description]
   (cond
     (str/includes? description "Kindle Svcs")
@@ -23,6 +24,12 @@
 
     (str/includes? description "GOODFELLAS")
     ["food-outside" "GoodFellas"]
+
+    (str/includes? description "TESLA")
+    ["travel" "Tesla Taxi"]
+
+    (str/includes? description "Patreon")
+    ["virtual" "Patreon membership"]
 
     :else
     ["uncategorized" description]))
