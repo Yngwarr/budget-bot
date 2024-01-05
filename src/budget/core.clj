@@ -18,7 +18,9 @@
   (let [id (-> msg :chat :id)]
     (if (some? (get allowed-chats id))
       (handler msg)
-      (t/send-text tg-token id "401"))))
+      (do
+        (prn "Unauthorized access" msg)
+        (t/send-text tg-token id "401")))))
 
 (defn start-cmd [{{id :id :as chat} :chat}]
   (println "Bot joined a new chat: " chat)
