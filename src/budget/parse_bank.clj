@@ -31,6 +31,9 @@
     (str/includes? description "Patreon")
     ["virtual" "Patreon membership"]
 
+    (str/includes? description "www.1.me")
+    ["cellphone" "Top-up"]
+
     :else
     ["uncategorized" description]))
 
