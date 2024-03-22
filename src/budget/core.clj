@@ -76,8 +76,12 @@
   (println " #mmmm\" \"mm\"#  \"#m##  \"#m\"#  \"#mm\"    \"mm  #mmmm\" \"#m#\"    \"mm ")
   (println "                       m  #                                    ")
   (println "                        \"\"                                     ")
-  (let [ch (p/start tg-token bot-api)]
-    (<!! ch)))
+  ;; "stopping polling" doesn't throw an exception, all we can do is to simply restart
+  (loop [i 0]
+    (let [ch (p/start tg-token bot-api)]
+      (<!! ch))
+    (println (str "This concludes the attempt number " i "."))
+    (recur (inc i))))
 
 (comment
   (def channel
