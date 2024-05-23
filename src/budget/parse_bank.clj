@@ -1,41 +1,29 @@
 (ns budget.parse-bank
   (:require [clojure.string :as str]))
 
+(def categories
+  [["Kindle Svcs" ["books" "Kindle book"]]
+   ["Nintendo" ["games" "Switch game"]]
+   ["STEAMGAMES" ["games" "Steam game"]]
+   ["ITUNES.COM" ["software" "AppStore"]]
+   ["AROMA 127" ["food" "City Market"]]
+   ["AROMA" ["food" "Aroma"]]
+   ["IDEA" ["food" "Idea"]]
+   ["OKOV" ["housewares" "Okov"]]
+   ["GOODFELLAS" ["food-outside" "GoodFellas"]]
+   ["ME GUSTA" ["food-outside" "Me Gusta"]]
+   ["TESLA" ["travel" "Tesla Taxi"]]
+   ["Patreon" ["subscription" "Patreon mambership"]]
+   ["www.1.me" ["cellphone" "Top-up"]]])
+
 ;; TODO move to data somewhere in the spreadsheet
 (defn guess-category-and-comment [description]
-  (cond
-    (str/includes? description "Kindle Svcs")
-    ["virtual" "Kindle book"]
-
-    (str/includes? description "Nintendo")
-    ["virtual" "Switch game"]
-
-    (str/includes? description "AROMA 127")
-    ["food" "City Market"]
-
-    (str/includes? description "AROMA")
-    ["food" "Aroma"]
-
-    (str/includes? description "IDEA")
-    ["food" "Idea"]
-
-    (str/includes? description "OKOV")
-    ["housewares" "Okov"]
-
-    (str/includes? description "GOODFELLAS")
-    ["food-outside" "GoodFellas"]
-
-    (str/includes? description "TESLA")
-    ["travel" "Tesla Taxi"]
-
-    (str/includes? description "Patreon")
-    ["virtual" "Patreon membership"]
-
-    (str/includes? description "www.1.me")
-    ["cellphone" "Top-up"]
-
-    :else
-    ["uncategorized" description]))
+  (reduce
+    (fn [acc [k v]]
+      (if (str/includes? description k)
+        (reduced v)
+        acc))
+    ["uncategorized" description] categories))
 
 (defn parse-amount [amount]
   (try
