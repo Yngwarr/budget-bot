@@ -13,7 +13,7 @@
    ["GOODFELLAS" ["food-outside" "GoodFellas"]]
    ["ME GUSTA" ["food-outside" "Me Gusta"]]
    ["TESLA" ["travel" "Tesla Taxi"]]
-   ["Patreon" ["subscription" "Patreon mambership"]]
+   ["Patreon" ["subscription" "Patreon membership"]]
    ["www.1.me" ["cellphone" "Top-up"]]])
 
 ;; TODO move to data somewhere in the spreadsheet
